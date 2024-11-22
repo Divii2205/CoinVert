@@ -126,7 +126,7 @@ export default function CurrencyConverter() {
           <Picker
             style={styles.picker}
             selectedValue={fromCurrency}
-            onValueChange={handleFromCurrencyChange}
+            onValueChange={(itemValue) => setFromCurrency(itemValue)}
           >
             {currencies.map((currency) => (
               <Picker.Item key={currency} label={currency} value={currency} />
@@ -143,7 +143,7 @@ export default function CurrencyConverter() {
           <Picker
             style={styles.picker}
             selectedValue={toCurrency}
-            onValueChange={handleToCurrencyChange}
+            onValueChange={(itemValue) => setToCurrency(itemValue)}
             dropdownIconColor="#43046D"
           >
             {currencies.map((currency) => (
@@ -151,6 +151,13 @@ export default function CurrencyConverter() {
             ))}
           </Picker>
         </View>
+
+        <TouchableOpacity 
+          style={styles.convertButton}
+          onPress={() => fetchExchangeRates(fromCurrency, toCurrency)}
+        >
+          <Text style={styles.convertButtonText}>Convert</Text>
+        </TouchableOpacity>
 
         {loading ? (
           <ActivityIndicator size="large" color="#43046D" />
@@ -230,5 +237,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#43046D',
     marginTop: 5,
+  },
+  convertButton: {
+    backgroundColor: '#43046D',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  convertButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
