@@ -21,54 +21,64 @@ interface ExchangeRates {
 
 export default function CurrencyConverter() {
   const [amount, setAmount] = useState('1');
-  const [fromCurrency, setFromCurrency] = useState('USD');
-  const [toCurrency, setToCurrency] = useState('EUR');
+  const [fromCurrency, setFromCurrency] = useState('INR');
+  const [toCurrency, setToCurrency] = useState('USD');
   const [convertedAmount, setConvertedAmount] = useState('0');
   const [loading, setLoading] = useState(false);
-  const [rates, setRates] = useState<ExchangeRates>({});
+  const [conversionRate, setConversionRate] = useState<number>(1);
 
   const currencies = [
     'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'INR', 'NZD'
   ];
 
   useEffect(() => {
-    loadLastUsedValues();
-    fetchExchangeRates();
-  }, []);
+    // loadLastUsedValues();
+    fetchExchangeRates(fromCurrency, toCurrency);
+  }, [fromCurrency, toCurrency]);
 
-  const loadLastUsedValues = async () => {
-    try {
-      const savedAmount = await AsyncStorage.getItem('lastAmount');
-      const savedFromCurrency = await AsyncStorage.getItem('lastFromCurrency');
-      const savedToCurrency = await AsyncStorage.getItem('lastToCurrency');
+  // const loadLastUsedValues = async () => {
+  //   try {
+  //     const savedAmount = await AsyncStorage.getItem('lastAmount');
+  //     const savedFromCurrency = await AsyncStorage.getItem('lastFromCurrency');
+  //     const savedToCurrency = await AsyncStorage.getItem('lastToCurrency');
 
-      if (savedAmount) setAmount(savedAmount);
-      if (savedFromCurrency) setFromCurrency(savedFromCurrency);
-      if (savedToCurrency) setToCurrency(savedToCurrency);
-    } catch (error) {
-      console.error('Error loading saved values:', error);
-    }
-  };
+  //     if (savedAmount) setAmount(savedAmount);
+  //     if (savedFromCurrency) setFromCurrency(savedFromCurrency);
+  //     if (savedToCurrency) setToCurrency(savedToCurrency);
+  //   } catch (error) {
+  //     console.error('Error loading saved values:', error);
+  //   }
+  // };
 
-  const saveLastUsedValues = async () => {
-    try {
-      await AsyncStorage.setItem('lastAmount', amount);
-      await AsyncStorage.setItem('lastFromCurrency', fromCurrency);
-      await AsyncStorage.setItem('lastToCurrency', toCurrency);
-    } catch (error) {
-      console.error('Error saving values:', error);
-    }
-  };
+  // const saveLastUsedValues = async () => {
+  //   try {
+  //     await AsyncStorage.setItem('lastAmount', amount);
+  //     await AsyncStorage.setItem('lastFromCurrency', fromCurrency);
+  //     await AsyncStorage.setItem('lastToCurrency', toCurrency);
+  //   } catch (error) {
+  //     console.error('Error saving values:', error);
+  //   }
+  // };
 
-  const fetchExchangeRates = async () => {
+  const fetchExchangeRates = async (from: string, to: string) => {
     try {
       setLoading(true);
       const response = await fetch(`${API_URL}${API_KEY}/latest/${fromCurrency}`);
       const data = await response.json();
 
+      // console.log('Full API Response:', JSON.stringify(data, null, 2));
+
       if (data.result === 'success') {
-        setRates(data.conversion_rates);
-        convertCurrency(amount, data.conversion_rates);
+        const rate = data.conversion_rates[to];
+        // console.log(`Conversion Rate (${fromCurrency} to ${toCurrency}):`, rate);
+        if (!rate){
+          Alert.alert('Error', `Unable to find conversion rate from ${fromCurrency} to ${toCurrency}`);
+          return;
+        }
+
+        setConversionRate(rate);
+        const convertedValue = (Number(amount) * rate).toFixed(2);
+        setConvertedAmount(convertedValue);
       } else {
         Alert.alert('Error', 'Unable to fetch exchange rates');
       }
@@ -79,26 +89,24 @@ export default function CurrencyConverter() {
     }
   };
 
-  const convertCurrency = (value: string, currentRates: ExchangeRates = rates) => {
-    if (!value || isNaN(Number(value))) {
-      setConvertedAmount('0');
-      return;
-    }
+  const swapCurrencies = () => {
+    const newFrom = toCurrency;
+    const newTo = fromCurrency;
+    
+    setFromCurrency(newFrom);
+    setToCurrency(newTo);
+  };
 
-    const result = (Number(value) * currentRates[toCurrency]).toFixed(2);
-    setConvertedAmount(result);
-    saveLastUsedValues();
+  const handleFromCurrencyChange = (value: string) => {
+    setFromCurrency(value);
+  };
+
+  const handleToCurrencyChange = (value: string) => {
+    setToCurrency(value);
   };
 
   const handleAmountChange = (value: string) => {
     setAmount(value);
-    convertCurrency(value);
-  };
-
-  const swapCurrencies = () => {
-    setFromCurrency(toCurrency);
-    setToCurrency(fromCurrency);
-    fetchExchangeRates();
   };
 
   return (
@@ -118,10 +126,7 @@ export default function CurrencyConverter() {
           <Picker
             style={styles.picker}
             selectedValue={fromCurrency}
-            onValueChange={(value) => {
-              setFromCurrency(value);
-              fetchExchangeRates();
-            }}
+            onValueChange={handleFromCurrencyChange}
           >
             {currencies.map((currency) => (
               <Picker.Item key={currency} label={currency} value={currency} />
@@ -138,10 +143,8 @@ export default function CurrencyConverter() {
           <Picker
             style={styles.picker}
             selectedValue={toCurrency}
-            onValueChange={(value) => {
-              setToCurrency(value);
-              convertCurrency(amount);
-            }}
+            onValueChange={handleToCurrencyChange}
+            dropdownIconColor="#43046D"
           >
             {currencies.map((currency) => (
               <Picker.Item key={currency} label={currency} value={currency} />
@@ -157,6 +160,9 @@ export default function CurrencyConverter() {
             <Text style={styles.resultValue}>
               {toCurrency} {convertedAmount}
             </Text>
+            <Text style={styles.resultLabel}>Conversion Rate:
+              1 {fromCurrency} = {conversionRate.toFixed(2)} {toCurrency}
+            </Text> 
           </View>
         )}
       </View>
@@ -167,6 +173,7 @@ export default function CurrencyConverter() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     padding: 20,
     backgroundColor: '#f5f5f5',
   },
