@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
   View,
   Text,
@@ -7,6 +8,8 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
+  ImageBackground,
+  Dimensions,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -111,6 +114,10 @@ export default function CurrencyConverter() {
 
   return (
     <View style={styles.container}>
+      {/* <ImageBackground
+       source={require('../assets/images/background-image.png')}
+       style={styles.backgroundImage}
+     > */}
       <View style={styles.card}>
         <Text style={styles.label}>Amount</Text>
         <TextInput
@@ -173,11 +180,17 @@ export default function CurrencyConverter() {
           </View>
         )}
       </View>
+      {/* </ImageBackground> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  // backgroundImage: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -185,17 +198,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   card: {
+    // width: 350,
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 20,
-    shadowColor: '#000',
+    shadowColor: '#43046D',
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: 2,
+      height: 4,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowRadius: 3.9,
+    elevation: 7,
   },
   label: {
     fontSize: 16,
