@@ -1,50 +1,117 @@
-# Welcome to your Expo app 👋
+# CoinVert
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A React Native mobile application that allows users to convert between different currencies using real-time exchange rates. The app features a clean, intuitive interface and uses the ExchangeRate-API for accurate currency conversion.
 
-## Get started
+## Features
 
-1. Install dependencies
+- Real-time currency conversion
+- Support for 10 major currencies (USD, EUR, GBP, JPY, AUD, CAD, CHF, CNY, INR, NZD)
+- Clean and intuitive user interface
+- Quick currency swap functionality
+- Display of current conversion rates
+- Error handling for network issues and API failures
+- Loading indicators for better user experience
 
-   ```bash
-   npm install
-   ```
+## Prerequisites
 
-2. Start the app
+Before running this application, make sure you have the following installed:
+- Node.js (v12 or higher)
+- Expo CLI
+- npm
 
-   ```bash
-    npx expo start
-   ```
+## Installation
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+1. Clone the repository:
 ```bash
-npm run reset-project
+git clone <repository-url>
+cd CoinVert
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Learn more
+3. Create an account at [ExchangeRate-API](https://www.exchangerate-api.com/) and get your API key.
 
-To learn more about developing your project with Expo, look at the following resources:
+4. Replace the API key in `index.tsx`:
+```typescript
+const API_KEY = 'your_api_key_here';
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Running the App
 
-## Join the community
+To start the development server:
 
-Join our community of developers creating universal apps.
+```bash
+npx expo start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This will open the Expo developer tools in your browser. You can then:
+- Run on Android emulator
+- Scan the QR code with the Expo Go app on your physical device
+
+## Dependencies
+
+- React Native
+- Expo
+- @react-native-picker/picker
+- @react-native-async-storage/async-storage
+- @expo/vector-icons
+- expo-router
+
+## Project Structure
+
+- `index.tsx` - Main currency converter component with core functionality
+- `_layout.tsx` - App layout configuration with header styling
+- `styles` - Styling definitions using React Native StyleSheet
+
+## Features Implementation
+
+### Currency Conversion
+The app uses the ExchangeRate-API to fetch real-time conversion rates. The conversion happens automatically when:
+- The amount is changed
+- The source currency is changed
+- The target currency is changed
+
+### UI Components
+- Text input for amount entry
+- Currency pickers for source and target currencies
+- Swap button to quickly exchange source and target currencies
+- Convert button to trigger manual conversion
+- Results display showing converted amount and current rate
+
+### Error Handling
+The app includes comprehensive error handling for:
+- Network errors
+- API failures
+- Invalid conversion rates
+- Input validation
+
+## Styling
+
+The app uses a custom color scheme with:
+- Primary color: #43046D (Deep Purple)
+- Background color: #f5f5f5 (Light Gray)
+- Card shadows and elevation for depth
+- Responsive layout that adapts to different screen sizes
+
+## Future Enhancements
+
+The following features are commented out in the code but can be implemented:
+- Local storage for saving last used values
+- Background image support
+- Additional currency support
+- Historical rate tracking
+- Offline mode support
+- Light and Dark mode settings
+- Graphical representation of rate changes
+- Animations for increased user interaction
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License
