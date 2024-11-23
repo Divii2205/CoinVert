@@ -1,8 +1,8 @@
-# CoinVert
+# CoinVert 💱
 
 A React Native mobile application that allows users to convert between different currencies using real-time exchange rates. The app features a clean, intuitive interface and uses the ExchangeRate-API for accurate currency conversion.
 
-## Features
+## Features ✨ 
 
 - Real-time currency conversion
 - Support for 10 major currencies (USD, EUR, GBP, JPY, AUD, CAD, CHF, CNY, INR, NZD)
@@ -12,14 +12,14 @@ A React Native mobile application that allows users to convert between different
 - Error handling for network issues and API failures
 - Loading indicators for better user experience
 
-## Prerequisites
+## Prerequisites 📋
 
 Before running this application, make sure you have the following installed:
 - Node.js (v12 or higher)
 - Expo CLI
 - npm
 
-## Installation
+## Installation 🔧
 
 1. Clone the repository:
 ```bash
@@ -39,7 +39,7 @@ npm install
 const API_KEY = 'your_api_key_here';
 ```
 
-## Running the App
+## Running the App 🏃‍♂️
 
 To start the development server:
 
@@ -51,7 +51,7 @@ This will open the Expo developer tools in your browser. You can then:
 - Run on Android emulator
 - Scan the QR code with the Expo Go app on your physical device
 
-## Dependencies
+## Dependencies 📦
 
 - React Native
 - Expo
@@ -60,35 +60,35 @@ This will open the Expo developer tools in your browser. You can then:
 - @expo/vector-icons
 - expo-router
 
-## Project Structure
+## Project Structure 🏗️
 
 - `index.tsx` - Main currency converter component with core functionality
 - `_layout.tsx` - App layout configuration with header styling
 - `styles` - Styling definitions using React Native StyleSheet
 
-## Features Implementation
+## Features Implementation 🛠️ 
 
-### Currency Conversion
+### Currency Conversion 💸
 The app uses the ExchangeRate-API to fetch real-time conversion rates. The conversion happens automatically when:
 - The amount is changed
 - The source currency is changed
 - The target currency is changed
 
-### UI Components
+### UI Components 📱
 - Text input for amount entry
 - Currency pickers for source and target currencies
 - Swap button to quickly exchange source and target currencies
 - Convert button to trigger manual conversion
 - Results display showing converted amount and current rate
 
-### Error Handling
+### Error Handling ⚠️
 The app includes comprehensive error handling for:
 - Network errors
 - API failures
 - Invalid conversion rates
 - Input validation
 
-## Styling
+## Styling 🎨
 
 The app uses a custom color scheme with:
 - Primary color: #43046D (Deep Purple)
@@ -96,7 +96,7 @@ The app uses a custom color scheme with:
 - Card shadows and elevation for depth
 - Responsive layout that adapts to different screen sizes
 
-## Future Enhancements
+## Future Enhancements 🚀
 
 The following features are commented out in the code but can be implemented:
 - Local storage for saving last used values
@@ -108,7 +108,7 @@ The following features are commented out in the code but can be implemented:
 - Graphical representation of rate changes
 - Animations for increased user interaction
 
-## Contributing
+## Contributing 🤝
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
